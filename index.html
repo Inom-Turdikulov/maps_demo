@@ -3,37 +3,34 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>Chef for seniors</title>
-
+  </head>
+  <body>
     <style type="text/css">
-      body {
-        margin: 0;
-        padding: 10px 20px 20px;
-        font-family: Arial;
-        font-size: 16px;
+      #chief-map-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        max-height: 800px;  /* This is optional */
       }
 
-      #map-container {
-        padding: 6px;
-        border-width: 1px;
-        border-style: solid;
-        border-color: #ccc #ccc #999 #ccc;
-        -webkit-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
-        -moz-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
-        box-shadow: rgba(64, 64, 64, 0.1) 0 2px 5px;
-        width: 800px;
+      #chief-map-container::before {
+        content: "";
+        width: 1px;
+        margin-left: -1px;
+        float: left;
+        height: 0;
+        padding-top: 56.5%;
       }
 
-      #map {
-        width: 800px;
-        height: 400px;
+      #chief-map {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
       }
 
-      #actions {
-        list-style: none;
-        padding: 0;
-      }
-
-      #inline-actions {
+      #chief-inline-actions {
         padding-top: 10px;
       }
 
@@ -51,10 +48,940 @@
       }
     </style>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmbz2P-aKZsB3uQT9wSYoRlIQ7UWCtKJQ"></script>
-<script src="markers.json" type="text/javascript"></script>
-    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <div id="chief-map-container">
+      <div id="chief-map"></div>
+    </div>
 
+    <!--  You can change default selected value to adjust map  -->
+    <div id="chief-inline-actions" style="display: none">
+      <select id="control-map-zoom">
+        <option value="-1">Default</option>
+        <option value="7" selected>7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+      </select>
+      <select id="control-map-size">
+        <option value="-1">Default</option>
+        <option value="40" selected>40</option>
+        <option value="50">50</option>
+        <option value="70">70</option>
+        <option value="80">80</option>
+      </select>
+      <span class="item">
+        <select id="control-map-style">
+          <option value="0" selected>Default</option>
+          <option value="1">People</option>
+          <option value="2">Conversation</option>
+          <option value="3">Heart</option>
+       </select>
+      </span>
+    </div>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmbz2P-aKZsB3uQT9wSYoRlIQ7UWCtKJQ"></script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <!--  Markers  -->
+    <script type="text/javascript">
+      var markersData = {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -71.1755449,
+                42.4452902,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Greater Boston Area",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0g-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/1n8ob9uoe85fjrom17um03qfo0/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALplDpCvAS1flHB2TgyFUspkqtyU9k5in8wivP5cjXHlOuMTwPha8VnJZKQTbTqSb0hfZZ2PGp3aDbnQTIMnc06tYLsxP3goxiAtIQ3je0yjRGyjT7igwflvJXBD_d72qa2q8suG6NydZgUNsFQH6RU7cZ3QnMCWESrho8rM_W-BGCqeGYsTurAKtQomq4ORKjWidNas8W0DRxFhg97qEoKcb9u5vObrWbOnqrT_QClpxH3yK-t5FknemQPMs_uXH7EmtAKvAqGuigZi3U_YNXWSynT5og?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Greater Boston<br>John O'Neill<br>781-664-3652<br>www.chefsforseniors.com/greater-boston/",
+              "gx_media_links": "https://doc-0g-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/1n8ob9uoe85fjrom17um03qfo0/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALplDpCvAS1flHB2TgyFUspkqtyU9k5in8wivP5cjXHlOuMTwPha8VnJZKQTbTqSb0hfZZ2PGp3aDbnQTIMnc06tYLsxP3goxiAtIQ3je0yjRGyjT7igwflvJXBD_d72qa2q8suG6NydZgUNsFQH6RU7cZ3QnMCWESrho8rM_W-BGCqeGYsTurAKtQomq4ORKjWidNas8W0DRxFhg97qEoKcb9u5vObrWbOnqrT_QClpxH3yK-t5FknemQPMs_uXH7EmtAKvAqGuigZi3U_YNXWSynT5og?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -75.0097734,
+                39.9261057,
+                0
+              ]
+            },
+            "properties": {
+              "name": "South Jersey",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0c-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/41omdrg0nngi47aldnddev535s/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrXB4WCH2RNkMkg21JMUqsdTYjFCEiZzFCEbwCvmRTOt6-3uGwThWwu_Hkvhu-gSCQTgCMNI7zPX97UkjL4hiQym4zUmBNyD0KCxV69_CGSj1ILIDilkeMbAFJPGRSRVIllZzLSXRy-lMm9jkGRtQwhbBMEMAJQEw7py6ooe5M_B8Z3cD0_PSScBmjn3Z52PPDiJ3-Mz6AqFNWhXpxJXefrGirZ5w0AvyVNcWA5OEEzcaXIb7NaOkDXWaWOz1lMy2HfeBICTEGji1twmfh7S28rf8eQTw?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - South Jersey<br>Ron Tornari<br>856-308-0310<br>www.chefsforseniors.com/cherry-hill-area/",
+              "gx_media_links": "https://doc-0c-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/41omdrg0nngi47aldnddev535s/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrXB4WCH2RNkMkg21JMUqsdTYjFCEiZzFCEbwCvmRTOt6-3uGwThWwu_Hkvhu-gSCQTgCMNI7zPX97UkjL4hiQym4zUmBNyD0KCxV69_CGSj1ILIDilkeMbAFJPGRSRVIllZzLSXRy-lMm9jkGRtQwhbBMEMAJQEw7py6ooe5M_B8Z3cD0_PSScBmjn3Z52PPDiJ3-Mz6AqFNWhXpxJXefrGirZ5w0AvyVNcWA5OEEzcaXIb7NaOkDXWaWOz1lMy2HfeBICTEGji1twmfh7S28rf8eQTw?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -78.6098558,
+                35.8668418,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Raleigh",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-08-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/qel35a3gfobd31r3urcnotbeug/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpMqZG-d_cVUhvskwjrqOZrfMA6Od2Tq3ByEk2BBO5z2IpTPGbbbBs0woMEppSBbclZGYvfo3QzEHh4Tm2zLQpTETH9pM2DUMbtzY34Vj3IOEFapKzcAnvhKYcX5VUBgfdnSlUoQEDbd02UoOgQ36sRwf5pDpHpPq9Rjhx0E0StaRKHs7oARlumQMcsSISl2iPpLj4BgMV3Y-dIG6UVi2N8hzzxE_TN1NFCHp-mZIbE4RY_d0JGwlIc7CZ2GOgtqCQzryLsRDoadi1lgnRchx89tFn1Sg?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Raleigh<br>Zach Merritt<br>984-960-9563<br>www.chefsforseniors.com/raleigh/",
+              "gx_media_links": "https://doc-08-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/qel35a3gfobd31r3urcnotbeug/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpMqZG-d_cVUhvskwjrqOZrfMA6Od2Tq3ByEk2BBO5z2IpTPGbbbBs0woMEppSBbclZGYvfo3QzEHh4Tm2zLQpTETH9pM2DUMbtzY34Vj3IOEFapKzcAnvhKYcX5VUBgfdnSlUoQEDbd02UoOgQ36sRwf5pDpHpPq9Rjhx0E0StaRKHs7oARlumQMcsSISl2iPpLj4BgMV3Y-dIG6UVi2N8hzzxE_TN1NFCHp-mZIbE4RY_d0JGwlIc7CZ2GOgtqCQzryLsRDoadi1lgnRchx89tFn1Sg?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -84.4027193,
+                33.8727568,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Atlanta",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-14-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/27fkdqgdfak2l2ttscvpfesrpg/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALoOJcYCNt4FAujd8Swfdf5QeKawbcYIQHY6ka5adcTAnJ1DHu5m49ZDkeKpS4AsqM38jSUiDDgwpG5w7SAJrwYjpncDz9KczziEhcQiB7R50cVg17dcjjlWPbmPWFdSmXVJnxSyUMvkAmtYlImG0PE5X-HvrSIkZnYp2wtbzvQ_GSs4-yRJZxbVSGt20uJV5wj9OX3j6LpihwrK7oEqv21VTx1Yv-agS_b8M932SZU0HwF3jVAn_jW558RfHeq13Tt5Wcoxw5NsGF5cEuaN5nHsdcvscg?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Atlanta<br>Leslie Chapman<br>404-914-7252<br>www.chefsforseniors.com/atlanta/",
+              "gx_media_links": "https://doc-14-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/27fkdqgdfak2l2ttscvpfesrpg/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALoOJcYCNt4FAujd8Swfdf5QeKawbcYIQHY6ka5adcTAnJ1DHu5m49ZDkeKpS4AsqM38jSUiDDgwpG5w7SAJrwYjpncDz9KczziEhcQiB7R50cVg17dcjjlWPbmPWFdSmXVJnxSyUMvkAmtYlImG0PE5X-HvrSIkZnYp2wtbzvQ_GSs4-yRJZxbVSGt20uJV5wj9OX3j6LpihwrK7oEqv21VTx1Yv-agS_b8M932SZU0HwF3jVAn_jW558RfHeq13Tt5Wcoxw5NsGF5cEuaN5nHsdcvscg?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -80.227228,
+                26.0081071,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Miami & South Broward County",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-00-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/lkp2pq7kbk0pq3s16j5cvsgtmc/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrCADdXqvTNfLe1vnTnzivtNMAZsZRX9mGKy031FOktllwXa69AlG3aFPFzAQ0ndGWAP3h_p5YoFlCm30bwhLZP9j8emS7RwPM_H95E6O8zgbS72iJUBtKJajCDuvJk0cu1B45spo7pNh6MwxVDmAORur6tANzehNUlmsTCWUNz8thif98hw_gViV6Y7HZVgpPJdSvj08TxarhamjxEyCQqsDwwngG8ZAjISn_g_9aK3fCog-7JnBQVIKRBCsC4KVKDvlnjJyl-KiPsN2MtWxWcoaPTNw?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - South Broward County<br>Kelly Sheehan<br>305-206-4696<br>www.chefsforseniors.com/south-broward/",
+              "gx_media_links": "https://doc-00-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/lkp2pq7kbk0pq3s16j5cvsgtmc/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrCADdXqvTNfLe1vnTnzivtNMAZsZRX9mGKy031FOktllwXa69AlG3aFPFzAQ0ndGWAP3h_p5YoFlCm30bwhLZP9j8emS7RwPM_H95E6O8zgbS72iJUBtKJajCDuvJk0cu1B45spo7pNh6MwxVDmAORur6tANzehNUlmsTCWUNz8thif98hw_gViV6Y7HZVgpPJdSvj08TxarhamjxEyCQqsDwwngG8ZAjISn_g_9aK3fCog-7JnBQVIKRBCsC4KVKDvlnjJyl-KiPsN2MtWxWcoaPTNw?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -80.1256044,
+                26.3642534,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Boca Raton",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-10-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/bpb6vgs8v2utscefu8katisd98/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqCSgYGUIBmYQg3RYP7JxadKpGHVrRkglYfJ9Snl5oeOZhzKTDAzsQ1MoH-mGygqxiue7krhB85xB7VgywsIhUIqJegXeZzli8oxHvKXJoRSruEiQJonYxrqK_sFCpL6H8MJIT1U2NM7BP9Prtz15brGtpdMKe1J2eIYcQ-9EM5RJGRHjV2gJZRAFDKPm1N8HAku2vWETwRFTn1R9qiMPPbs-fH_aOzafR1M_XAAFod5-AXmN0Fr3lGDRp8c3UcltoeZLOg2JQATQ_iQbfpSlddgLejDA?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Boca Raton<br>Lisa Allman<br>844-237-2433",
+              "gx_media_links": "https://doc-10-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/bpb6vgs8v2utscefu8katisd98/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqCSgYGUIBmYQg3RYP7JxadKpGHVrRkglYfJ9Snl5oeOZhzKTDAzsQ1MoH-mGygqxiue7krhB85xB7VgywsIhUIqJegXeZzli8oxHvKXJoRSruEiQJonYxrqK_sFCpL6H8MJIT1U2NM7BP9Prtz15brGtpdMKe1J2eIYcQ-9EM5RJGRHjV2gJZRAFDKPm1N8HAku2vWETwRFTn1R9qiMPPbs-fH_aOzafR1M_XAAFod5-AXmN0Fr3lGDRp8c3UcltoeZLOg2JQATQ_iQbfpSlddgLejDA?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -81.4116384,
+                28.3108964,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Kissimmee/Osceola County",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-04-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/ltekieuc2i12fli42irqmguh44/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpKFPvJOuzI6k-l36iTT440B_uNggkJyTbb48-A4pL83ovaTx87IMJIu-0wH_3iwMNsPHBR6dOrnzRPEkXob8jOjJcCpDdVlfBH29uaUUmBVR9Ay2YqbsJC6n268gFE_DA9RNrg60xb6ayn4-B4XEIXYfilbbF4wHGeR8qWMUaFS4TuJ7Rp8sejm57OQWfaMKI_54n6oDxkU5MEkMLRY7cdBguIcGP_NbrECOUY9WhmXe1TD75PQMifW7zFE1iN9LaTK7_8nRALY40YEkc0YSAk3iwT0g?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Kissimmee/Osceola County<br>Dan Pellegrino<br>609-685-8911<br>www.chefsforseniors.com/kissimmee-osceola/",
+              "gx_media_links": "https://doc-04-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/ltekieuc2i12fli42irqmguh44/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpKFPvJOuzI6k-l36iTT440B_uNggkJyTbb48-A4pL83ovaTx87IMJIu-0wH_3iwMNsPHBR6dOrnzRPEkXob8jOjJcCpDdVlfBH29uaUUmBVR9Ay2YqbsJC6n268gFE_DA9RNrg60xb6ayn4-B4XEIXYfilbbF4wHGeR8qWMUaFS4TuJ7Rp8sejm57OQWfaMKI_54n6oDxkU5MEkMLRY7cdBguIcGP_NbrECOUY9WhmXe1TD75PQMifW7zFE1iN9LaTK7_8nRALY40YEkc0YSAk3iwT0g?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -82.0120331,
+                28.9115489,
+                0
+              ]
+            },
+            "properties": {
+              "name": "The Villages",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-00-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/o54ratsrdprhalcdrci0pa6n6g/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALoXAK7rGgHOExXejZ6t8RLwuyxqh-Vurt8n2kp36P0bGuntBiN29oRp47LDjpL-pYDYJxmzG3RqZxoyRfTCEl_5_yAt_A-F6rqgoHXSFyAek5PaJoHvcMpN2YLVYJTJmRDol13eYEtf7LkHt258jgTb_ZHJZpF_7EjDTSU5bGiEDouzCHU4a-4boszpPbI73bnZKWoMhYyfS3ybSa_juzUbV5B8WssFc8DP2Tsec0DWjzK8iv8BHdKdELgq57odeHbOWcBFwENpL1WOeAayWFJhKAR5Vw?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - The Villages<br>Gregory Shionis<br>352-789-8737<br>www.chefsforseniors.com/the-villages-fl/",
+              "gx_media_links": "https://doc-00-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/o54ratsrdprhalcdrci0pa6n6g/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALoXAK7rGgHOExXejZ6t8RLwuyxqh-Vurt8n2kp36P0bGuntBiN29oRp47LDjpL-pYDYJxmzG3RqZxoyRfTCEl_5_yAt_A-F6rqgoHXSFyAek5PaJoHvcMpN2YLVYJTJmRDol13eYEtf7LkHt258jgTb_ZHJZpF_7EjDTSU5bGiEDouzCHU4a-4boszpPbI73bnZKWoMhYyfS3ybSa_juzUbV5B8WssFc8DP2Tsec0DWjzK8iv8BHdKdELgq57odeHbOWcBFwENpL1WOeAayWFJhKAR5Vw?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -87.7763348,
+                42.0475828,
+                0
+              ]
+            },
+            "properties": {
+              "name": "North Shore Chicago Suburbs",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0g-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/l8fq54fn1865srh2089kd8k28o/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpyAwIuYaAxGRE5JzBQS-TjhRayOHFdS5CNo0gjS_tyXsOxGSJfVlHAVpai3pZ5B9ANX9xohwUuZnt-Np4KP07_7fPWyWoRpd1uSOHjzCOAQ_CruhWKkHu24Ck9JQneVOJ5MqnJl_zzmN3ikxqZE8fHgoYAmKJ8SpJrtVZ_UdV4zPXOcuk-ZshYrDBC_O94O5d2vN9WmSuNKGxF4M_eNQXWavmvuVDkBDrT_UTX-vMk1Fb95WbmyZHgJ6xPYDizgSJDzHUDM3HK0YGbZLR-6QEg4s9u5g?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - North Shore Chi Suburbs<br>Samantha Robbins<br>312-702-1297",
+              "gx_media_links": "https://doc-0g-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/l8fq54fn1865srh2089kd8k28o/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpyAwIuYaAxGRE5JzBQS-TjhRayOHFdS5CNo0gjS_tyXsOxGSJfVlHAVpai3pZ5B9ANX9xohwUuZnt-Np4KP07_7fPWyWoRpd1uSOHjzCOAQ_CruhWKkHu24Ck9JQneVOJ5MqnJl_zzmN3ikxqZE8fHgoYAmKJ8SpJrtVZ_UdV4zPXOcuk-ZshYrDBC_O94O5d2vN9WmSuNKGxF4M_eNQXWavmvuVDkBDrT_UTX-vMk1Fb95WbmyZHgJ6xPYDizgSJDzHUDM3HK0YGbZLR-6QEg4s9u5g?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -89.0150433,
+                42.7493552,
+                0
+              ]
+            },
+            "properties": {
+              "name": "South Central Wisconsin",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-04-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/97a31i1r5hmaqrl0f1s6f9l3qc/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqoLAqwN2_s0RxV52xpptiQJJ6o6U6Z6LUoN1A3SOKspCQe2OYgkdl7amMyHBqyZH1rycIy6sFTC8PxgTE656nmyJ8Ir08jZi64OytYH6kGavjjTFSSRAYNIn4XVZTGxk0H7IBLrxuasUg3WuASScOF6fyFK6HSbs7klQQ1S4OumoSd6B-5ZEnqF38x64refWnWpZY_zkqPXJJo8tuxfdII7wCJ5ZaN7HVS6DQEUp5NTSo0jcIPJefIjRbRUudvPOhshEDpE1rFqMbgSqri7oQqRaWyGg?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - South Central WI<br>Richard & Stacey Wood<br>www.chefsforseniors.com/south-central-wisconsin/<br>608-844-8422",
+              "gx_media_links": "https://doc-04-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/97a31i1r5hmaqrl0f1s6f9l3qc/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqoLAqwN2_s0RxV52xpptiQJJ6o6U6Z6LUoN1A3SOKspCQe2OYgkdl7amMyHBqyZH1rycIy6sFTC8PxgTE656nmyJ8Ir08jZi64OytYH6kGavjjTFSSRAYNIn4XVZTGxk0H7IBLrxuasUg3WuASScOF6fyFK6HSbs7klQQ1S4OumoSd6B-5ZEnqF38x64refWnWpZY_zkqPXJJo8tuxfdII7wCJ5ZaN7HVS6DQEUp5NTSo0jcIPJefIjRbRUudvPOhshEDpE1rFqMbgSqri7oQqRaWyGg?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -89.3363934,
+                43.0932849,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Madison",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-04-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/u2t44kmbbkp3msv01ogj5dmis8/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqlsllK1R3mprbnBTXgC5yHp_cGpOIoggnI6mMCu6I4UswGoLmxTtGw7rxTPWEGsAZun0-Y-d7_InCD9bwvdCEmR3YIoZfBBM5kZAbIXcW00qDyC9_YSkR4KH3LXOdSDO79awsaBf5w7p_3l5MS9u2tiOvSep7QQFnr0mdpULF6_C1Pu3thDC2qjFWsrUK0uMcHHmpqtwbupDxF-CRvQxrmVDRW6WWEusBCRRbdHjxpsnSr3RxOrat3nVfFCuvJjWX46tpxUpPMok1MfdE6AqrGhlNRfA?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Madison<br>Lisa Allman<br>844-237-2433",
+              "gx_media_links": "https://doc-04-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/u2t44kmbbkp3msv01ogj5dmis8/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqlsllK1R3mprbnBTXgC5yHp_cGpOIoggnI6mMCu6I4UswGoLmxTtGw7rxTPWEGsAZun0-Y-d7_InCD9bwvdCEmR3YIoZfBBM5kZAbIXcW00qDyC9_YSkR4KH3LXOdSDO79awsaBf5w7p_3l5MS9u2tiOvSep7QQFnr0mdpULF6_C1Pu3thDC2qjFWsrUK0uMcHHmpqtwbupDxF-CRvQxrmVDRW6WWEusBCRRbdHjxpsnSr3RxOrat3nVfFCuvJjWX46tpxUpPMok1MfdE6AqrGhlNRfA?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -104.8920998,
+                39.6567979,
+                0
+              ]
+            },
+            "properties": {
+              "name": "South Metro Denver Area",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0c-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/lv8dc2lel4vfds4h3ujsc41bu8/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrWV8TzrZoREKynhVdQVzVhrjwS5wZv2eTCkJdQW49MLZQJ4ZLX7cX_UJITFcZcjRS9_6JAxI8G1FgjXMggx2m2v0lqVwvI4SSmjPwOXrL30ktRmphhXzZ9vlGM2VAawUbRYK7NRC1hWM2cckLMpJ2LC51uFZk3yneAOHGSkzdnBel4pBjyiQkktg_0UcWP_AKCt72Bd453YPP4B1BJRRTPeQQW2oHDrMIJRUUYPk00cs9cWHhVQiSCf1LHgZt0AnmuTlrJ-LjjFEceuK7EjmGrWWRvTQ?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - South Metro Denver<br>Sandy Wilcox<br>303-903-6319<br>www.chefsforseniors.com/south-metro-denver/",
+              "gx_media_links": "https://doc-0c-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/lv8dc2lel4vfds4h3ujsc41bu8/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrWV8TzrZoREKynhVdQVzVhrjwS5wZv2eTCkJdQW49MLZQJ4ZLX7cX_UJITFcZcjRS9_6JAxI8G1FgjXMggx2m2v0lqVwvI4SSmjPwOXrL30ktRmphhXzZ9vlGM2VAawUbRYK7NRC1hWM2cckLMpJ2LC51uFZk3yneAOHGSkzdnBel4pBjyiQkktg_0UcWP_AKCt72Bd453YPP4B1BJRRTPeQQW2oHDrMIJRUUYPk00cs9cWHhVQiSCf1LHgZt0AnmuTlrJ-LjjFEceuK7EjmGrWWRvTQ?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -105.0651344,
+                39.7835539,
+                0
+              ]
+            },
+            "properties": {
+              "name": "North Denver Area",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-14-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/flsr9345akk2qf1igc9ecum7nk/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqbT16koN2qgbyDd11h4QS5BT5oL_BmK_yGaE0yRGXK-aDLmjw2Az33EGSAl6nFtcAB91pvcnq5hIVQXOqhEMUG46HyCFzre4OWVn70cyxB-tqLq2Kd3p3u0PIK5NX4SmNsstUtVY_qzk_A2QCDFSVkBvEQ3QErfZWAahWwRqLiVUOYOXNqLdf3bzN8WWzy-XuhSU8KwdTziBe9X5mMAkUw0EO2Dnt2zZY0PXUiRajiQDepuL-N6x8c8-mYrA3LuRMybFPZHUOk-CFKOeGnXO5Liu_Atg?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - North Denver Area<br>Denise Huff<br>720-355-0615<br>www.chefsforseniors.com/north-denver-area/",
+              "gx_media_links": "https://doc-14-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/flsr9345akk2qf1igc9ecum7nk/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqbT16koN2qgbyDd11h4QS5BT5oL_BmK_yGaE0yRGXK-aDLmjw2Az33EGSAl6nFtcAB91pvcnq5hIVQXOqhEMUG46HyCFzre4OWVn70cyxB-tqLq2Kd3p3u0PIK5NX4SmNsstUtVY_qzk_A2QCDFSVkBvEQ3QErfZWAahWwRqLiVUOYOXNqLdf3bzN8WWzy-XuhSU8KwdTziBe9X5mMAkUw0EO2Dnt2zZY0PXUiRajiQDepuL-N6x8c8-mYrA3LuRMybFPZHUOk-CFKOeGnXO5Liu_Atg?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -111.9563087,
+                33.5262717,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Scottsdale",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0g-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/3j9m32deg75mktgkv3icmiqfnc/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALquQGgG6p3Zp8LETF4_Avgi3X58Z6N4KRov1DXHfUzW8z8cnOMt7rkdxPMEAM6WXqpenQK-dF-GRcWsFJLkHPVGAn71JV71v8ut85Kn0ntQZ2ZQ2MwBRXtAu0BoYqgRYwfvXCi7t5ivu-qFlZPKbhyKTFcJpv1Ty4SF5hCT0AfMY2BSgMv7MhOLiCUXVthUnZpru0CEWn2t6VL1CEk3X6SUfSkp1Pj_XKo1u98DVwpBCJT4AHYRtQROLv6mox4Gc0N_ieIiYVVsFBCmPzd4Iku4RVKIOw?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Scottsdale<br>Derrik Balius<br>480-225-9132<br>www.chefsforseniors.com/scottsdale/",
+              "gx_media_links": "https://doc-0g-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/3j9m32deg75mktgkv3icmiqfnc/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALquQGgG6p3Zp8LETF4_Avgi3X58Z6N4KRov1DXHfUzW8z8cnOMt7rkdxPMEAM6WXqpenQK-dF-GRcWsFJLkHPVGAn71JV71v8ut85Kn0ntQZ2ZQ2MwBRXtAu0BoYqgRYwfvXCi7t5ivu-qFlZPKbhyKTFcJpv1Ty4SF5hCT0AfMY2BSgMv7MhOLiCUXVthUnZpru0CEWn2t6VL1CEk3X6SUfSkp1Pj_XKo1u98DVwpBCJT4AHYRtQROLv6mox4Gc0N_ieIiYVVsFBCmPzd4Iku4RVKIOw?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -110.8802441,
+                32.2546549,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Tucson",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-08-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/ff0s01o99t8f90db5rdjdsgf0s/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrZyB6bYKK1XOX07X4NdXoD3p3OPsYYKUkoQWsvXijl6BZEfUwng4wGTpzJ3N3dnX7X4jG0erZw4io3nzx0hKa6XbGrA_ST8q6x9eZ83RZRB8PQt1990OESTqVIYdxGnfm7DN5zR2CUqvW8D9YFoOYn3qy3bcXRcnfK0TNasYAVThjGh1_eh4mCFHY5SLUz0EZlSYaB0CSaJxgMjN98gKZvLKN0llfgx_jfGustF82ELUt_t0OGyvyNbpbn6l0_wbgkFFLOS8Viot3TCVNgGpdLCeSr3A?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Tucson<br>Rhonda Humphry<br>520-971-8537<br>www.chefsforseniors.com/tucson/",
+              "gx_media_links": "https://doc-08-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/ff0s01o99t8f90db5rdjdsgf0s/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrZyB6bYKK1XOX07X4NdXoD3p3OPsYYKUkoQWsvXijl6BZEfUwng4wGTpzJ3N3dnX7X4jG0erZw4io3nzx0hKa6XbGrA_ST8q6x9eZ83RZRB8PQt1990OESTqVIYdxGnfm7DN5zR2CUqvW8D9YFoOYn3qy3bcXRcnfK0TNasYAVThjGh1_eh4mCFHY5SLUz0EZlSYaB0CSaJxgMjN98gKZvLKN0llfgx_jfGustF82ELUt_t0OGyvyNbpbn6l0_wbgkFFLOS8Viot3TCVNgGpdLCeSr3A?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -117.1312864,
+                34.0487481,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Central Inland Empire",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-00-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/b1oparf73csi1h5qd2velki7dg/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrFr6U8Os0auR8JQI8JiARho9SljkcYrwImjuYBpsTcoJij31Wl6RVo8Jvy8hiiMWeSKAt6VOBgMJWSyBjPiP98IIemEx5H575Fv-qyZ3_zk-MU0EN8b6i0B6FCNJORoNXCMZ9PT18UZA5nW-OKZ93S4Wr3x3_ZoV2oJXbmSdE7QmOEc65uTVghh5jmOrnSdL9VeLEE2KcS3IxIT0NnNzDCkPG3lWkLs9JtGIuj_QnsMmozY9KtamvhZNwRYDfgonU3OdxNdAgksxqSH4e-VtvglD7Ntw?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Central Inland Empire<br>Johanna Bernstein<br>909-372-6113<br>www.chefsforseniors.com/central-inland-empire/",
+              "gx_media_links": "https://doc-00-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/b1oparf73csi1h5qd2velki7dg/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrFr6U8Os0auR8JQI8JiARho9SljkcYrwImjuYBpsTcoJij31Wl6RVo8Jvy8hiiMWeSKAt6VOBgMJWSyBjPiP98IIemEx5H575Fv-qyZ3_zk-MU0EN8b6i0B6FCNJORoNXCMZ9PT18UZA5nW-OKZ93S4Wr3x3_ZoV2oJXbmSdE7QmOEc65uTVghh5jmOrnSdL9VeLEE2KcS3IxIT0NnNzDCkPG3lWkLs9JtGIuj_QnsMmozY9KtamvhZNwRYDfgonU3OdxNdAgksxqSH4e-VtvglD7Ntw?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -95.4612625,
+                30.1658207,
+                0
+              ]
+            },
+            "properties": {
+              "name": "The Woodlands",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "Chefs For Seniors - The Woodlands<br>Laurent Vals<br>832-415-7374"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -105.084423,
+                40.5852602,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Northern Colorado",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "Chefs For Seniors - Northern Colorado<br>Lauren Foster<br>720-726-1953"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -95.2621553,
+                29.9988312,
+                0
+              ]
+            },
+            "properties": {
+              "name": "North Houston",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "Chefs For Seniors - North Houston<br>Shonah Jefferson<br>chefsforseniors.com/north-houston<br>832-956-1848"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -80.6081089,
+                28.0836269,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Melbourne",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "Chefs For Seniors - Melbourne<br>Jillian Zebris<br>321.210.6953<br>https://chefsforseniors.com/melbourne-fl"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -81.8404884,
+                28.7425483,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Lake County",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "Chefs For Seniors - Lake County<br>Ryan Painter<br>407-247-2210<br>chefsforseniors.com/lake-county-fl"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -77.1118501,
+                39.035764,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Montgomery County",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "Chefs For Seniors - Montgomery County<br>Ron Reid<br>301-289-7393<br>www.chefsforseniors.com/maryland-montgomery"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -70.9639492,
+                42.6268237,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Essex County (MA)",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "Chefs For Seniors - Essex County (MA)<br>Mike Burrill<br>781-520-3477"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -80.2595974,
+                26.2155086,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Northwest Broward County",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0g-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/3trp2f6e3ue2p2c1a1j02d7eps/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALomxCLtpGUngFCs73c1XBtaZmkhJuu3YBQufmiXEVWLyQ6EFWzcHJyPMBWf1jhWkjL2tVafC0AgZInFhr5tjBppwti45J33Wwys_3EGmr4eY60mXfFTE2juxNySCQjmpxecGMV23kEJ1W24n7Eq7UgplV0g6-f64vjL3_ZWB2H-IV1yBb0WVenboJ0-aEH62Wg_4k3Ml6GoRTMT_jpdPA5yzZpKX_UT922QbdOU1sLJaYefMZ6-iyZEiek7nzTHKJRLaXfzH4EYA_bXKM_L19M4YZtjwg?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Northwest Broward County<br>Mark Bergman<br>505-501-1166<br>chefsforseniors.com/northwest-broward-county",
+              "gx_media_links": "https://doc-0g-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/3trp2f6e3ue2p2c1a1j02d7eps/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALomxCLtpGUngFCs73c1XBtaZmkhJuu3YBQufmiXEVWLyQ6EFWzcHJyPMBWf1jhWkjL2tVafC0AgZInFhr5tjBppwti45J33Wwys_3EGmr4eY60mXfFTE2juxNySCQjmpxecGMV23kEJ1W24n7Eq7UgplV0g6-f64vjL3_ZWB2H-IV1yBb0WVenboJ0-aEH62Wg_4k3Ml6GoRTMT_jpdPA5yzZpKX_UT922QbdOU1sLJaYefMZ6-iyZEiek7nzTHKJRLaXfzH4EYA_bXKM_L19M4YZtjwg?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -81.7948103,
+                26.1420358,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Naples",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-14-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/8dfm2jhdhahuast4lvaubrp1ec/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqf8EOeI-VUX3duvEjDxZKV0hb7oWyzRRshSiTeIUTREfzXooAd3YeWxHOiDxlaU5vyWsYh34MqqBsvIv9NW6BtXTGvtsKsXqQy4N2Xra659OnrMVji_kTlngYLerCuPzwsZVtfWu19OT_4sdxXXAjo7XccVQ_WWji1TQWx5GOSsugvg2a6-E5gmHZFkyrL_FMvx7p7KxTZASLX5DfoHimeO_pU21C_GjNoXelaX-LpWyUX-cGgsDiUc8ufBQmgMi9E_3dI3tcRmZRM_YzGl4rhZ2EoJQ?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Naples<br>Bill Springer<br>239-776-1758<br>chefsforseniors.com/naples-fl",
+              "gx_media_links": "https://doc-14-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/8dfm2jhdhahuast4lvaubrp1ec/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqf8EOeI-VUX3duvEjDxZKV0hb7oWyzRRshSiTeIUTREfzXooAd3YeWxHOiDxlaU5vyWsYh34MqqBsvIv9NW6BtXTGvtsKsXqQy4N2Xra659OnrMVji_kTlngYLerCuPzwsZVtfWu19OT_4sdxXXAjo7XccVQ_WWji1TQWx5GOSsugvg2a6-E5gmHZFkyrL_FMvx7p7KxTZASLX5DfoHimeO_pU21C_GjNoXelaX-LpWyUX-cGgsDiUc8ufBQmgMi9E_3dI3tcRmZRM_YzGl4rhZ2EoJQ?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -77.0368707,
+                38.9071923,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Washington DC, Fairfax County, Arlington",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-10-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/gvt2t1o8ekmaa9c1ofhn2i3sg0/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALr55ieyAFsHdhnmAoXEBblDf9A4_P-s7c0v-46EIBJCH8-ddOT6RJe-1fCGvCR7K7VhALq__eO6oE-Eonvl_SqmxRfr4DbfozpTQ2zZDW2UrQ4m0cn8dD6NyENwUsyCvb1VSJm4WTarhLUhviIPDcc8qM6s7uCiTZq2tmDQA7W3KCPOYIuJlmETTABkJUJxP6e-lQzK8WKoP-fmIBkg9uBYQjLZ9S9V2g2cHZkWIdYAvDqS910jnAzuYYtmZqULe1mHZMboNNZSg6LtSiyMPgYwXo64lw?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - DC, Arlington, & Fairfax<br>Liz Wing<br>202-888-2722<br>chefsforseniors.com/dc-arlington-fairfax",
+              "gx_media_links": "https://doc-10-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/gvt2t1o8ekmaa9c1ofhn2i3sg0/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALr55ieyAFsHdhnmAoXEBblDf9A4_P-s7c0v-46EIBJCH8-ddOT6RJe-1fCGvCR7K7VhALq__eO6oE-Eonvl_SqmxRfr4DbfozpTQ2zZDW2UrQ4m0cn8dD6NyENwUsyCvb1VSJm4WTarhLUhviIPDcc8qM6s7uCiTZq2tmDQA7W3KCPOYIuJlmETTABkJUJxP6e-lQzK8WKoP-fmIBkg9uBYQjLZ9S9V2g2cHZkWIdYAvDqS910jnAzuYYtmZqULe1mHZMboNNZSg6LtSiyMPgYwXo64lw?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.9441579,
+                40.6781784,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Brooklyn",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-10-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/h7b3q16ljbafdakdtmijal2mjs/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrydFzjh5t3RJW987ydsaKS4nTPwusFo3UtuSwUHrxWD63bClW6spTq2yvckqdRhsuP3Heu1CYMNVRMFBM2pnbosaNbNXE9qgnWmGv0Dc9VFbRxPi-Q-GMYK60HMqt7P7q31-c4ZRKV4ccmgEZffK9X5tZ5MpiqN8gtUTQY4RUjlfM6i4mB4TYqd0VmhUljH3UZrscbomlg87YYKTf9oVfgd4mZ9IIB7KBNbzxJldvGfqADponpKBtUD-ineMhnP0rgqe1GZKNEXcJ_E3Y26lhxUp-VcA?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Brooklyn<br>Evamarie Reid<br>(347) 687-6057<br>chefsforseniors.com/brooklyn",
+              "gx_media_links": "https://doc-10-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/h7b3q16ljbafdakdtmijal2mjs/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALrydFzjh5t3RJW987ydsaKS4nTPwusFo3UtuSwUHrxWD63bClW6spTq2yvckqdRhsuP3Heu1CYMNVRMFBM2pnbosaNbNXE9qgnWmGv0Dc9VFbRxPi-Q-GMYK60HMqt7P7q31-c4ZRKV4ccmgEZffK9X5tZ5MpiqN8gtUTQY4RUjlfM6i4mB4TYqd0VmhUljH3UZrscbomlg87YYKTf9oVfgd4mZ9IIB7KBNbzxJldvGfqADponpKBtUD-ineMhnP0rgqe1GZKNEXcJ_E3Y26lhxUp-VcA?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -88.0384195,
+                42.888627,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Franklin",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-04-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/0fvujelkbgca3h11k4pbjf4jls/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALoKBBGii0y8FdfOLd7iE6o6qmbs_fF9-S7LZ_plgWncX1MsDo5V5W8F7i4uxWuDwURs3I5C77hBBHcp7v0T09vBQCp_SOhuZb-wA0qMyu3MNSa4lh6zK8IpMK6LDobPXT-17WT0f6BcZFWVlDs-Bmuoj70qF_GYxsJhd87Ul80O5elQN1PFm1JTWss6OxHxpxbDI6OVwXlIDCb9_uCohp-GMjw7XmWjlmi2xqY25AJC5LkP1MthbRUjmw0X01HTZos8FfYrx5NVfyJvngZaCBpoNB_qBQ?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Southeastern WI<br>Chef Linda Culp<br>262-492-2611",
+              "gx_media_links": "https://doc-04-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/0fvujelkbgca3h11k4pbjf4jls/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALoKBBGii0y8FdfOLd7iE6o6qmbs_fF9-S7LZ_plgWncX1MsDo5V5W8F7i4uxWuDwURs3I5C77hBBHcp7v0T09vBQCp_SOhuZb-wA0qMyu3MNSa4lh6zK8IpMK6LDobPXT-17WT0f6BcZFWVlDs-Bmuoj70qF_GYxsJhd87Ul80O5elQN1PFm1JTWss6OxHxpxbDI6OVwXlIDCb9_uCohp-GMjw7XmWjlmi2xqY25AJC5LkP1MthbRUjmw0X01HTZos8FfYrx5NVfyJvngZaCBpoNB_qBQ?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -83.373339,
+                42.5678534,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Northwest Detroit Suburbs",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-10-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/t8h5pcm81d7fk3971rj84nsl54/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpGlenCmGBMO4PPqsvOo116gAZHqIcgwndbAQnAZR2UGdF32xi62OI1V3zH2_LPtVNQR50EiBtTdcj8yejUFxFg6pQVs4JMDGPVy2F-nf9xMMAsdaVSsU2HVm6LvfPH4RlUzvBAEi7hMDCyZFNfmqjShshLN_F7-_Xo0rC298X1g7myd5uPXNmJEj_usaJq7REZp2BuCBBCXCsNRu21AVV7P6aoEXzmVE8Oz-l7fj9cHEj1TnzHa7g0GHVVQ8jzUvNjP5ZdY9m17ysaHzXJ8IpMZqGFkQ?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - NW Detroit Suburbs<br>Mike & Le'ah Jackson<br>248-464-6067",
+              "gx_media_links": "https://doc-10-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/t8h5pcm81d7fk3971rj84nsl54/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpGlenCmGBMO4PPqsvOo116gAZHqIcgwndbAQnAZR2UGdF32xi62OI1V3zH2_LPtVNQR50EiBtTdcj8yejUFxFg6pQVs4JMDGPVy2F-nf9xMMAsdaVSsU2HVm6LvfPH4RlUzvBAEi7hMDCyZFNfmqjShshLN_F7-_Xo0rC298X1g7myd5uPXNmJEj_usaJq7REZp2BuCBBCXCsNRu21AVV7P6aoEXzmVE8Oz-l7fj9cHEj1TnzHa7g0GHVVQ8jzUvNjP5ZdY9m17ysaHzXJ8IpMZqGFkQ?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -96.9977846,
+                32.7459645,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Grand Prairie/Arlington",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "Chefs For Seniors - Arlington/Grand Prairie<br>Shaneka Baylor: 469-476-2420<br>chefsforseniors.com/arlington-grand-prairie-tx"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -80.0654553,
+                40.5747836,
+                0
+              ]
+            },
+            "properties": {
+              "name": "North Pittsburgh",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-10-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/slhpib6q1rlkoongakqd4pep1k/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpZPXDDbbYUWtuJ_v-hMOiQ6gFZ0o1DooRNiU14_715OG8Yt4kFNwBRMGq2SOr45o0_laEPDp8X291XOIytNPmelRdyYDdy7KvnSlPOIb87P5OEwVwOfyS-aYBzpWU4d0fR8FQQ2GY5ApMU1XFRdQv1qxfgiiHdHkMPz2vf2vsGlkgfv0xi715FaQ_jEeWffJxRI-Ue51hyYmd_1XscGY9fYKKGWz9wnOpI2GGF3hSQByh4S9Z2hIxG32eQrNHoSXUFT7HN1fUjYNC6lThcVVaZ_DkJBA?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - North Pittsburgh<br>Matt Rice<br>724-766-1500",
+              "gx_media_links": "https://doc-10-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/slhpib6q1rlkoongakqd4pep1k/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpZPXDDbbYUWtuJ_v-hMOiQ6gFZ0o1DooRNiU14_715OG8Yt4kFNwBRMGq2SOr45o0_laEPDp8X291XOIytNPmelRdyYDdy7KvnSlPOIb87P5OEwVwOfyS-aYBzpWU4d0fR8FQQ2GY5ApMU1XFRdQv1qxfgiiHdHkMPz2vf2vsGlkgfv0xi715FaQ_jEeWffJxRI-Ue51hyYmd_1XscGY9fYKKGWz9wnOpI2GGF3hSQByh4S9Z2hIxG32eQrNHoSXUFT7HN1fUjYNC6lThcVVaZ_DkJBA?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -76.8581342,
+                38.9979691,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Prince George's County",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0g-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/ah3hgt5ggliquul4ppjgmt59dc/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpDadQg3_EpNDyvHpGD2okHB6a24FqPBIN9uAQstQ5Nm6DvwxQ-UWwv54euQz5KNMnNRWW2HcVrIj-dHyh5GtnH4knM6Z4dm5vyRbx1qjw-e6Bb3ISZar2ezJ831QCt4Z2fxOYbPjOuXyhj97dGYMXxPLUs4E85HFEw_nivLn_IPNYenYrWOucffPYiDZMZQ5QoeLNnQ3I44NWRkVHaEkYnovu3SCkPWmA2tiKj2DZO9ZPHDZaDjUjUZGMDgNt3OKCnN2Y4OuKZt2Izfd_VQUXmT_4CYw?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Prince George's County<br>Ron Reid<br>301-289-7393<br>www.chefsforseniors.com/maryland-montgomery",
+              "gx_media_links": "https://doc-0g-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/ah3hgt5ggliquul4ppjgmt59dc/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALpDadQg3_EpNDyvHpGD2okHB6a24FqPBIN9uAQstQ5Nm6DvwxQ-UWwv54euQz5KNMnNRWW2HcVrIj-dHyh5GtnH4knM6Z4dm5vyRbx1qjw-e6Bb3ISZar2ezJ831QCt4Z2fxOYbPjOuXyhj97dGYMXxPLUs4E85HFEw_nivLn_IPNYenYrWOucffPYiDZMZQ5QoeLNnQ3I44NWRkVHaEkYnovu3SCkPWmA2tiKj2DZO9ZPHDZaDjUjUZGMDgNt3OKCnN2Y4OuKZt2Izfd_VQUXmT_4CYw?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -74.5135179,
+                40.3692423,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Central New Jersey",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0c-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/3sul1p1nk7sahdauconk3o75is/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqxVtiELCLLxqJA5eCu-fcSQnUM2OZIIV3o9xu5rwo57rb2x3vI13QcKVccO-DyzGLCy0Lox7nJCDO8oQHc0Z-heas_v8RAkEln1yR8xyRN2mt_X0EItApuW3_iz6LDkJ5Sm8ezc4dN-FiJeWbjwK3ChFiSTiXKaywFR6ppHmhvV9Wd6GjQq9h0jcDmgYXcOKHAIFdRB3LGz4ZEcV04EcV1JeTOMR78upbPRFtKDsgUntoPX1-KZwJ25_nupwJmEPvJ9kQXxMcVgiAy_OXdrOWNgnhzrQ?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Central New Jersey<br>Seth Lefberg<br>609-545-2315<br>chefsforseniors.com/central-new-jersey",
+              "gx_media_links": "https://doc-0c-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/3sul1p1nk7sahdauconk3o75is/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqxVtiELCLLxqJA5eCu-fcSQnUM2OZIIV3o9xu5rwo57rb2x3vI13QcKVccO-DyzGLCy0Lox7nJCDO8oQHc0Z-heas_v8RAkEln1yR8xyRN2mt_X0EItApuW3_iz6LDkJ5Sm8ezc4dN-FiJeWbjwK3ChFiSTiXKaywFR6ppHmhvV9Wd6GjQq9h0jcDmgYXcOKHAIFdRB3LGz4ZEcV04EcV1JeTOMR78upbPRFtKDsgUntoPX1-KZwJ25_nupwJmEPvJ9kQXxMcVgiAy_OXdrOWNgnhzrQ?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -96.994174,
+                33.046233,
+                0
+              ]
+            },
+            "properties": {
+              "name": "North Texas (NW Dallas/Fort Worth Suburbs)",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0k-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/tp48rsg4rocsne0p9ah9q6dl4c/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqmO1YC7e4Q1MK8jvTtxyMhYkl0ugwX5-WShWaerPSaeEaedTRuX2bV5meAUUY_D3evaBpe4O9rVpC2sHVLJeS7bjbhyVEBHFTxetQTkbOOuk8I-59P21nZRwSsU63QNkZetCPYUNLULfWqQF7A3AGBy7nKxsAJK3ZKwecJgHVywG2LpkhGKgGUXqRpF-6y3n7gHQm8ZiWZeplw4TwTlUcsP-9VXdW-M7HEUq_BZkolMw6O8tXT5LC5xg7CH9HMu61BuJaThmQTUECecNgBnr3zFg8IKg?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - North Texas<br>Gagan Sarkaria: 855-347-2433<br>chefsforseniors.com/north-texas",
+              "gx_media_links": "https://doc-0k-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/tp48rsg4rocsne0p9ah9q6dl4c/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqmO1YC7e4Q1MK8jvTtxyMhYkl0ugwX5-WShWaerPSaeEaedTRuX2bV5meAUUY_D3evaBpe4O9rVpC2sHVLJeS7bjbhyVEBHFTxetQTkbOOuk8I-59P21nZRwSsU63QNkZetCPYUNLULfWqQF7A3AGBy7nKxsAJK3ZKwecJgHVywG2LpkhGKgGUXqRpF-6y3n7gHQm8ZiWZeplw4TwTlUcsP-9VXdW-M7HEUq_BZkolMw6O8tXT5LC5xg7CH9HMu61BuJaThmQTUECecNgBnr3zFg8IKg?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -118.3580393,
+                33.7966581,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Los Angeles - South Bay",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0k-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/thlfrd08r34emqvhg13858k12g/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqq-okV2hmBhx048sdyFkqPj--T_M9zqLoyIj_XVomGoBWebSVDQCo7ycQt6I0JZt1n5WFk1VsLDatEYXRoTFtKtzc2hbPZbarbRKPoB2Icl7IXXobBs3hDLLth7F15PEJfCV9fVXQYjNzZzz_S-qdcQNhpF0T1-RiZJKWrdUEGbxtr8V4SIfwxm8avOeJ0BrSsB0RDB5kDXmccQ4V5CsP0yuqyTsyGSnKxy5jEjr5-t32S65WIcvQ_bpDlSR1rUSsNMYgBkDGVEfdHzBPU_wee-w46Pg?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - LA South Bay<br>Shirrell Edey<br>424-224-9780<br>chefsforseniors.com/la-south-bay",
+              "gx_media_links": "https://doc-0k-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/thlfrd08r34emqvhg13858k12g/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqq-okV2hmBhx048sdyFkqPj--T_M9zqLoyIj_XVomGoBWebSVDQCo7ycQt6I0JZt1n5WFk1VsLDatEYXRoTFtKtzc2hbPZbarbRKPoB2Icl7IXXobBs3hDLLth7F15PEJfCV9fVXQYjNzZzz_S-qdcQNhpF0T1-RiZJKWrdUEGbxtr8V4SIfwxm8avOeJ0BrSsB0RDB5kDXmccQ4V5CsP0yuqyTsyGSnKxy5jEjr5-t32S65WIcvQ_bpDlSR1rUSsNMYgBkDGVEfdHzBPU_wee-w46Pg?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -82.5514869,
+                35.5950581,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Asheville/Buncombe County",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0o-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/c1e6j45p8s96rr7ei30gskm87g/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqoy0E7To524xEOwEN8rpsCgPyjQyJqrXe8r6pr_aT3UR9UeDvObNI4CZRR56sGX3S8CMhsHICRmSXGvfa3mOHz1T1kpjxkqdRZ3QSWnl1-GPiTLge4vLMBVIsre02AZi_MoJIGElqVx1C3wpHwvImr0GeDTviydD7Xrk8Vw85b3-nwadD6y8UleDqGpMcyD7J8wWzs5tJrMpEdu7MZvrxwGaGak7wWhB7n0O578cX2Ip_8jwQ69GbumidYxrLChPx0nBI8BvgbVMtZY0sEjiGokqfGYQ?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Asheville<br>Brandon Whitfield: 828-775-2529<br>chefsforseniors.com/asheville-nc",
+              "gx_media_links": "https://doc-0o-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/c1e6j45p8s96rr7ei30gskm87g/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqoy0E7To524xEOwEN8rpsCgPyjQyJqrXe8r6pr_aT3UR9UeDvObNI4CZRR56sGX3S8CMhsHICRmSXGvfa3mOHz1T1kpjxkqdRZ3QSWnl1-GPiTLge4vLMBVIsre02AZi_MoJIGElqVx1C3wpHwvImr0GeDTviydD7Xrk8Vw85b3-nwadD6y8UleDqGpMcyD7J8wWzs5tJrMpEdu7MZvrxwGaGak7wWhB7n0O578cX2Ip_8jwQ69GbumidYxrLChPx0nBI8BvgbVMtZY0sEjiGokqfGYQ?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -73.764855,
+                41.1595399,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Westchester County",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-08-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/5sk4acrlv3erlvcgu2t0dvle8c/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqcvxdVST2YKZBlco-lU19RBiAuhk2mtFmcuhk1c92NKxEE2rwW0Q2Ki5G5IotPLlxab0xWFIUkt3vGGHAKcj_lHzJkli-YkSO-zITaWTLX8-_31r-QlBaSKlafx6gKT7xf_G2pnERqoiKSUtdTYdu-47M-CT1F_Eo-x1n-KUdFbfeghPsQVBLIDYnQ6weLJ7ZyM0taS0arF-OEHtYHmsrytLaQya5WT4zjetDeh4pv-IhB9SwLvg6AF8LhwnYQEAaTC37EXy4nI2OmQX38xzCfk2J3Wg?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Westchester County<br>Lisa Willenbrock<br>914-752-8205<br>chefsforseniors.com/westchester-county-ny",
+              "gx_media_links": "https://doc-08-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/5sk4acrlv3erlvcgu2t0dvle8c/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqcvxdVST2YKZBlco-lU19RBiAuhk2mtFmcuhk1c92NKxEE2rwW0Q2Ki5G5IotPLlxab0xWFIUkt3vGGHAKcj_lHzJkli-YkSO-zITaWTLX8-_31r-QlBaSKlafx6gKT7xf_G2pnERqoiKSUtdTYdu-47M-CT1F_Eo-x1n-KUdFbfeghPsQVBLIDYnQ6weLJ7ZyM0taS0arF-OEHtYHmsrytLaQya5WT4zjetDeh4pv-IhB9SwLvg6AF8LhwnYQEAaTC37EXy4nI2OmQX38xzCfk2J3Wg?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -93.2650108,
+                44.977753,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Minneapolis",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "<img src=\"https://doc-0k-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/1bv8go7gcbgk2co6p0ulo9n5ic/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqt4U3_PfWuwWwwJ1zSI0-fHaelx5Ik5P-dP2errCGZt5E2oiwCwXDpQ207O_sigMUSEUEIs-ZosdU35RdSgt3hwAqx9YswSOLqVJMsrDmTu5zQsCBRXncUYfcq9nAvgxBL45yywg_KTQqKadTQQ7CFegl3LhXspogw2XuRPZYlAD3gHIzScpwO1lG6InJLW1tfGLfOkJM46r_9p_3uo5UOKL0fvjfefJxfxglb_73X0rNp-3vkACA1vz-uS296bnpbIRMBc92E3vOq43JE44a5pXFh9Q?fife\" height=\"200\" width=\"auto\" /><br><br>Chefs For Seniors - Minneapolis<br>952-222-1612<br>chefsforseniors.com/minneapolis",
+              "gx_media_links": "https://doc-0k-0g-mymaps.googleusercontent.com/untrusted/hostedimage/vr8g2pehvdfn3sps72crpds0vk/1bv8go7gcbgk2co6p0ulo9n5ic/1570644000000/DSXvKyMuMy6Ul5UtuAyOtQe0vidWUMeC/13160300769887824587/1AF2TALqt4U3_PfWuwWwwJ1zSI0-fHaelx5Ik5P-dP2errCGZt5E2oiwCwXDpQ207O_sigMUSEUEIs-ZosdU35RdSgt3hwAqx9YswSOLqVJMsrDmTu5zQsCBRXncUYfcq9nAvgxBL45yywg_KTQqKadTQQ7CFegl3LhXspogw2XuRPZYlAD3gHIzScpwO1lG6InJLW1tfGLfOkJM46r_9p_3uo5UOKL0fvjfefJxfxglb_73X0rNp-3vkACA1vz-uS296bnpbIRMBc92E3vOq43JE44a5pXFh9Q?fife"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -118.4911912,
+                34.0194543,
+                0
+              ]
+            },
+            "properties": {
+              "name": "Santa Monica",
+              "styleUrl": "#icon-1577-880E4F",
+              "styleHash": "-1b4d102f",
+              "styleMapHash": {
+                "normal": "#icon-1577-880E4F-normal",
+                "highlight": "#icon-1577-880E4F-highlight"
+              },
+              "icon": "http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+              "description": "Chefs For Seniors - West Los Angeles<br>(310) 266-1535<br>chefsforseniors.com/west-los-angeles-area"
+            }
+          }
+        ]
+      }
+    </script>
+
+    <!--  Main Code  -->
     <script type="text/javascript">
       var styles = [[{
         height: 53,
@@ -157,30 +1084,30 @@
         var markers = [];
 
         var markerImage = {
-            url: imageUrl,
-            size: new google.maps.Size(28, 28),
-            scaledSize: new google.maps.Size(28, 28)
+          url: imageUrl,
+          size: new google.maps.Size(28, 28),
+          scaledSize: new google.maps.Size(28, 28)
         };
 
         var markersLength = markersData.features.length;
         for (var i = 0; i < markersLength; ++i) {
           var latLng = new google.maps.LatLng(
-              markersData.features[i].geometry.coordinates[1],
-              markersData.features[i].geometry.coordinates[0]
+                  markersData.features[i].geometry.coordinates[1],
+                  markersData.features[i].geometry.coordinates[0]
           )
           var marker = new google.maps.Marker({
-           position: latLng,
-           icon: markerImage,
-           windowContent: markersData.features[i].properties.description,
-           title: markersData.features[i].properties.name
+            position: latLng,
+            icon: markerImage,
+            windowContent: markersData.features[i].properties.description,
+            title: markersData.features[i].properties.name
           });
 
           markers.push(marker);
         }
 
-        var zoom = parseInt(document.getElementById('zoom').value, 10);
-        var size = parseInt(document.getElementById('size').value, 10);
-        var style = parseInt(document.getElementById('style').value, 10);
+        var zoom = parseInt(document.getElementById('control-map-zoom').value, 10);
+        var size = parseInt(document.getElementById('control-map-size').value, 10);
+        var style = parseInt(document.getElementById('control-map-style').value, 10);
         zoom = zoom == -1 ? null : zoom;
         size = size == -1 ? null : size;
         style = style == -1 ? null: style;
@@ -192,25 +1119,25 @@
         });
 
         for(i = 0; i < markers.length; i++) {
-            var marker = markers[i];
+          var marker = markers[i];
 
-            google.maps.event.addListener(marker, 'click', (function(marker) {
-                return function() {
-                    infoWindow.setContent('<div class="info-window-content">'
-                        + '<p><strong>'
-                        + marker.title
-                        + '</strong></p>'
-                        + marker.windowContent
+          google.maps.event.addListener(marker, 'click', (function(marker) {
+            return function() {
+              infoWindow.setContent('<div class="info-window-content">'
+                      + '<p><strong>'
+                      + marker.title
+                      + '</strong></p>'
+                      + marker.windowContent
 
-                        + '</div>');
-                    infoWindow.open(map, this);
-                }
-            })(marker));
+                      + '</div>');
+              infoWindow.open(map, this);
+            }
+          })(marker));
         }
       }
 
       function initialize() {
-        map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(document.getElementById('chief-map'), {
           zoom: 3.8,
           center: new google.maps.LatLng(33.046233, -96.994174),
           mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -222,12 +1149,6 @@
           fullscreenControl: true
         });
 
-        var refresh = document.getElementById('refresh');
-        google.maps.event.addDomListener(refresh, 'click', refreshMap);
-
-        var clear = document.getElementById('clear');
-        google.maps.event.addDomListener(clear, 'click', clearClusters);
-
         refreshMap();
       }
 
@@ -236,46 +1157,8 @@
         e.stopPropagation();
         markerClusterer.clearMarkers();
       }
-    </script>
-  </head>
-  <body onload="initialize();">
-    <h3>Chef for seniors</h3>
-    <div id="map-container">
-      <div id="map"></div>
-    </div>
-    <div id="inline-actions">
-      <span>Max zoom level:
-        <select id="zoom">
-          <option value="-1">Default</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="14">14</option>
-        </select>
 
-      </span>
-      <span class="item">Cluster size:
-        <select id="size">
-          <option value="-1">Default</option>
-          <option value="40">40</option>
-          <option value="50">50</option>
-          <option value="70">70</option>
-          <option value="80">80</option>
-        </select>
-      </span>
-      <span class="item">Cluster style:
-        <select id="style">
-          <option value="0">Default</option>
-          <option value="1">People</option>
-          <option value="2">Conversation</option>
-          <option value="3">Heart</option>
-       </select>
-       <input id="refresh" type="button" value="UPDATE MAP!" class="item"/>
-       <a href="#" id="clear">Clear</a>
-    </div>
+      document.addEventListener("DOMContentLoaded", initialize);
+    </script>
   </body>
 </html>
