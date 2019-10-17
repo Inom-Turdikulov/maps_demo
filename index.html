@@ -53,41 +53,9 @@
       <div id="chief-map"></div>
     </div>
 
-    <!--  You can change default selected value to adjust map  -->
-    <div id="chief-inline-actions" style="display: none">
-      <select id="control-map-zoom">
-        <option value="-1">Default</option>
-        <option value="7" selected>7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-        <option value="13">13</option>
-        <option value="14">14</option>
-      </select>
-      <select id="control-map-size">
-        <option value="-1">Default</option>
-        <option value="40" selected>40</option>
-        <option value="50">50</option>
-        <option value="70">70</option>
-        <option value="80">80</option>
-      </select>
-      <span class="item">
-        <select id="control-map-style">
-          <option value="0" selected>Default</option>
-          <option value="1">People</option>
-          <option value="2">Conversation</option>
-          <option value="3">Heart</option>
-       </select>
-      </span>
-    </div>
-
+    <!--  JS code  -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmbz2P-aKZsB3uQT9wSYoRlIQ7UWCtKJQ"></script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-
-
-
 
     <!--  Markers  -->
     <script type="text/javascript">
@@ -986,10 +954,6 @@
       }
     </script>
 
-
-
-
-
     <!--  Main Code  -->
     <script type="text/javascript">
       var styles = [[{
@@ -1017,68 +981,7 @@
           url: "https://inomoz.github.io/maps_demo/images/m5.png",
           width: 90
         }
-      ],[{
-        url: 'https://inomoz.github.io/maps_demo/images/people35.png',
-        height: 35,
-        width: 35,
-        anchor: [16, 0],
-        textColor: '#ff00ff',
-        textSize: 10
-      }, {
-        url: 'https://inomoz.github.io/maps_demo/images/people45.png',
-        height: 45,
-        width: 45,
-        anchor: [24, 0],
-        textColor: '#ff0000',
-        textSize: 11
-      }, {
-        url: 'https://inomoz.github.io/maps_demo/images/people55.png',
-        height: 55,
-        width: 55,
-        anchor: [32, 0],
-        textColor: '#ffffff',
-        textSize: 12
-      }], [{
-        url: 'https://inomoz.github.io/maps_demo/images/conv30.png',
-        height: 27,
-        width: 30,
-        anchor: [3, 0],
-        textColor: '#ff00ff',
-        textSize: 10
-      }, {
-        url: 'https://inomoz.github.io/maps_demo/images/conv40.png',
-        height: 36,
-        width: 40,
-        anchor: [6, 0],
-        textColor: '#ff0000',
-        textSize: 11
-      }, {
-        url: 'https://inomoz.github.io/maps_demo/images/conv50.png',
-        width: 50,
-        height: 45,
-        anchor: [8, 0],
-        textSize: 12
-      }], [{
-        url: 'https://inomoz.github.io/maps_demo/images/heart30.png',
-        height: 26,
-        width: 30,
-        anchor: [4, 0],
-        textColor: '#ff00ff',
-        textSize: 10
-      }, {
-        url: 'https://inomoz.github.io/maps_demo/images/heart40.png',
-        height: 35,
-        width: 40,
-        anchor: [8, 0],
-        textColor: '#ff0000',
-        textSize: 11
-      }, {
-        url: 'https://inomoz.github.io/maps_demo/images/heart50.png',
-        width: 50,
-        height: 44,
-        anchor: [12, 0],
-        textSize: 12
-      }]];
+      ]];
 
       var markerClusterer = null;
       var map = null;
@@ -1114,9 +1017,9 @@
           markers.push(marker);
         }
 
-        var zoom = parseInt(document.getElementById('control-map-zoom').value, 10);
-        var size = parseInt(document.getElementById('control-map-size').value, 10);
-        var style = parseInt(document.getElementById('control-map-style').value, 10);
+        var zoom = 7;
+        var size = 40;
+        var style = 0;
         zoom = zoom == -1 ? null : zoom;
         size = size == -1 ? null : size;
         style = style == -1 ? null: style;
@@ -1145,7 +1048,7 @@
         }
       }
 
-      function initialize() {
+      function initializeChiefMap() {
         map = new google.maps.Map(document.getElementById('chief-map'), {
           zoom: 3.8,
           center: new google.maps.LatLng(33.046233, -96.994174),
@@ -1160,14 +1063,7 @@
 
         refreshMap();
       }
-
-      function clearClusters(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        markerClusterer.clearMarkers();
-      }
-
-      document.addEventListener("DOMContentLoaded", initialize);
+      document.addEventListener("DOMContentLoaded", initializeChiefMap);
     </script>
   </body>
 </html>
